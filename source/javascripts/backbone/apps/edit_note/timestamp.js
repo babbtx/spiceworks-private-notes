@@ -2,7 +2,7 @@ App.module("EditNote.Views", function(Views, App, Backbone, Marionette, $, _){
 
   Views.Timestamp = Marionette.ItemView.extend({
     template: false,
-    className: "timestamp",
+    className: "timestamp ripple",
     tagName: "span",
 
     modelEvents: {
@@ -24,6 +24,7 @@ App.module("EditNote.Views", function(Views, App, Backbone, Marionette, $, _){
 
     updateMessage: function(){
       this.$el.html(this.getTimestampMessage());
+      this.$el.trigger("ripple");
     }
   });
 });

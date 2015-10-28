@@ -3,5 +3,6 @@
  *= require materialize
  *= require medium-editor
  *= require themes/flat
+ *= require_tree ./common
  *= require_tree ./app
  */
