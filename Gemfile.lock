@@ -31,6 +31,7 @@ GEM
     compass-import-once (1.0.5)
       sass (>= 3.2, < 3.5)
     dotenv (1.0.2)
+    ejs (1.1.1)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -133,6 +134,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ejs
   middleman (~> 3.4.0)
   middleman-dotenv
   middleman-livereload (~> 3.1.0)

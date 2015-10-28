@@ -1,2 +1,9 @@
 //= require jquery
+//= require underscore
 //= require materialize
+//= require backbone
+//= require parse
+//= require backbone.radio
+//= require backbone.marionette
+//= require backbone/app
+//= require_tree ./backbone

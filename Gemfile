@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem "middleman", "~>3.4.0"
+gem "ejs"
 gem "middleman-dotenv"
 
 # Live-reloading plugin

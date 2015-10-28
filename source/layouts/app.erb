@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <title><%= current_page.data.title || "Spiceworks Private Notes" %></title>
+    <meta name="description" content="<%= current_page.data.description || "Keep private notes on IT assets, devices, and help desk tickets within the Spiceworks application"%>">
+    <meta name="author" content="Spiceworks, Inc.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <%= stylesheet_link_tag "all" %>
+  </head>
+  <body>
+    <%= yield %>
+    <%= javascript_include_tag  "all" %>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        Parse.initialize(<%= ENV['PARSE_APP_ID'].to_json %>, <%= ENV['PARSE_JAVASCRIPT_KEY'].to_json %>);
+        App.start();
+      });
+    </script>
+  </body>
+</html>
