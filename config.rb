@@ -1,3 +1,16 @@
+# sprockets knows how to find stuff in bower_components
+bower_components = Pathname.new(File.join(root, 'bower_components'))
+sprockets.append_path(bower_components)
+
+# serve up Materialize font files directly (they aren't concatted)
+materialize = Pathname.new(File.join(bower_components, 'Materialize/dist'))
+Dir[File.join(bower_components, "Materialize/dist/font/**/*.{ttf,woff,woff2}")].each do |path|
+  relative_path = Pathname.new(path).relative_path_from(bower_components)
+  logical_path = relative_path.to_s.sub(%r{^Materialize/dist/}, '')
+  STDOUT.puts "found font: #{relative_path} -> #{logical_path}"
+  sprockets.import_asset(relative_path) { logical_path }
+end
+
 ###
 # Compass
 ###
@@ -48,16 +61,19 @@
 # end
 
 set :css_dir, 'stylesheets'
-
 set :js_dir, 'javascripts'
-
 set :images_dir, 'images'
+set :fonts_dir, 'fonts'
 
 set :build_dir, 'public'
 
 config[:file_watcher_ignore] ||= []
 config[:file_watcher_ignore] << /^\.ruby-.*$/
 config[:file_watcher_ignore] << /^\.idea(\/|$)/
+
+configure :development do
+  # set :debug_assets, true
+end
 
 # Build-specific configuration
 configure :build do
