@@ -1,3 +1,5 @@
+activate :dotenv
+
 # sprockets knows how to find stuff in bower_components
 bower_components = Pathname.new(File.join(root, 'bower_components'))
 sprockets.append_path(bower_components)
