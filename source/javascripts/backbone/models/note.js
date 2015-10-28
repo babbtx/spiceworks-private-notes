@@ -1,6 +1,10 @@
 App.module("Models", function(Models, App, Backbone, Marionette, $, _){
   Models.Note = Parse.Object.extend({
     className: "Note",
+
+    initialize: function(attrs, options){
+      _.extend(this, Models.ParseEvents);
+    }
   });
 
   Models.Note.API = {
