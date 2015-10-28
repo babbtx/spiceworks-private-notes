@@ -1,0 +1,56 @@
+.edit_note-main {
+  margin-top: 10px;
+
+  .edit-note-container {
+    > .row:first-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .timestamp-region {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #757575;
+
+    .timestamp {
+      display: inline-block;
+      padding: 6px 3px;
+    }
+  }
+
+  .editor {
+    $editor-pad: 10px;
+
+    padding: $editor-pad;
+    box-shadow: 0 0px 3px 1px rgba(0,0,0,0.4) inset;
+    min-height: 250px;
+
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    &[contenteditable="true"]:focus {
+      outline: none;
+    }
+
+    &.medium-editor-placeholder:after {
+      padding: $editor-pad;
+      font-style: normal;
+      color: #757575;
+    }
+  }
+}
+
+$toolbar-height: 45px;
+
+.medium-toolbar-arrow-under:after {
+  top: $toolbar-height !important;
+}
+.medium-editor-toolbar button {
+  min-width: $toolbar-height !important;
+  height: $toolbar-height !important;
+}
+
+.medium-editor-toolbar-input {
+  height: $toolbar-height !important;
+}

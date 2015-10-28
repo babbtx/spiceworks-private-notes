@@ -4,6 +4,9 @@ activate :dotenv
 bower_components = Pathname.new(File.join(root, 'bower_components'))
 sprockets.append_path(bower_components)
 
+# but apparently not well enough to find this subfolder
+sprockets.append_path(File.join(bower_components, 'medium-editor/dist/css'))
+
 # serve up Materialize font files directly (they aren't concatted)
 materialize = Pathname.new(File.join(bower_components, 'Materialize/dist'))
 Dir[File.join(bower_components, "Materialize/dist/font/**/*.{ttf,woff,woff2}")].each do |path|

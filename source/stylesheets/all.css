@@ -1,4 +1,7 @@
 /*
  *= require normalize-css
  *= require materialize
+ *= require medium-editor
+ *= require themes/flat
+ *= require_tree ./app
  */
