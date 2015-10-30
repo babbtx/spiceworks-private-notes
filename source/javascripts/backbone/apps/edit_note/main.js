@@ -9,6 +9,12 @@ App.module("EditNote.Views", function(Views, App, Backbone, Marionette, $, _){
 
     behaviors: {BodyClass: {}},
 
+    serializeData: function(){
+      var data = Marionette.ItemView.prototype.serializeData.apply(this);
+      data.key = data.key || this.options.key;
+      return data;
+    },
+
     onShow: function(){
       if (this.model) {
         this.showChildView("timestamp", new Views.Timestamp({model: this.model}));
