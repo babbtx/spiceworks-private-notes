@@ -3,7 +3,8 @@ App.module("Root", function(Root, App, Backbone, Marionette, $, _){
     el: "body",
     template: "layout",
     regions: {
-      container: "#container"
+      container: "#container-region",
+      modal: "#modal-region"
     }
   });
 });
