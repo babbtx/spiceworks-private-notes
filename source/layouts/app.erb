@@ -13,10 +13,32 @@
   <body>
     <%= yield %>
     <%= javascript_include_tag  "all" %>
+    <%= javascript_include_tag 'https://spiceworks.github.io/spiceworks-js-sdk/dist/spiceworks-sdk.js' %>
     <script type="text/javascript">
       $(document).ready(function(){
+        // load spiceworks environment
+        // resolve deferred when this happens
+        var initialized = $.Deferred();
+        App.spiceworksCard = new SW.Card();
+        App.spiceworksCard.onActivate(function(env){
+          App.spiceworksEnvironment = env;
+          initialized.resolve();
+        });
+        _.delay(function(){
+          initialized.reject("Failed to initialize Spiceworks environment in 5 seconds");
+        }, 5000);
+
+        // set up parse environment
         Parse.initialize(<%= ENV['PARSE_APP_ID'].to_json %>, <%= ENV['PARSE_JAVASCRIPT_KEY'].to_json %>);
-        App.start();
+
+        initialized.then(
+            function(){
+              App.start();
+            },
+            function(err){
+              console.warn(err);
+              window.location.href = "/404.html";
+            });
       });
     </script>
   </body>
