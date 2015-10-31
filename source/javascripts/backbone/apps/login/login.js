@@ -2,19 +2,37 @@ App.module("Login", function(Login, App, Backbone, Marionette, $, _) {
 
   Login.Controller = {
 
+    showLoginModal: function(){
+      App.channel.request("modals:show", new Login.Views.LoginModal());
+    },
+
+    autoLoginUser: function(){
+      return _.tap($.Deferred(), function(d){d.reject("Auto login not implemented yet")});
+    },
+
+    dismissLoginModal: function(){
+      App.channel.request("modals.dismiss");
+    },
+
+    showLoginFailureModal: function(err){
+      App.channel.request("modals:error", {
+        title: "Login failed",
+        message: err || "Automatic login failed. Please try again or contact support."
+      });
+    },
+
     login: function(){
+      var that = this;
       Parse.Session.current()
         .done(function(){
-          // already logged in
-          var d = $.Deferred();
-          d.resolve();
-          return d.promise();
+          return $.when().promise(); // resolved
         })
         .fail(function(){
-          var view = new Login.Views.LoginModal();
-          // FIXME should use the radio channel to do this rather than knowing about rootLayout
-          App.rootLayout.showChildView("modal", view);
-          return $.Deferred();
+          return $.when()
+            .then(that.showLoginModal)
+            .then(that.autoLoginUser)
+            .then(that.dismissLoginModal)
+            .fail(that.showLoginFailureModal);
         });
     }
 
