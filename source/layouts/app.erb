@@ -16,6 +16,8 @@
     <%= javascript_include_tag 'https://spiceworks.github.io/spiceworks-js-sdk/dist/spiceworks-sdk.js' %>
     <script type="text/javascript">
       $(document).ready(function(){
+        App.spiceworksAppId = <%= ENV['SPICEWORKS_APP_ID'].to_json %>;
+
         // load spiceworks environment
         // resolve deferred when this happens
         var initialized = $.Deferred();

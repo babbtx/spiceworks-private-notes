@@ -3,21 +3,23 @@ App.module("Login", function(Login, App, Backbone, Marionette, $, _) {
   Login.Controller = {
 
     showLoginModal: function(){
-      App.channel.request("modals:show", new Login.Views.LoginModal());
+      return App.channel.request("modals:show", new Login.Views.LoginModal());
     },
 
     autoLoginUser: function(){
-      return _.tap($.Deferred(), function(d){d.reject("Auto login not implemented yet")});
+      return App.channel.request("models:spiceworks_user:login");
     },
 
     dismissLoginModal: function(){
-      App.channel.request("modals.dismiss");
+      return App.channel.request("modals:dismiss");
     },
 
     showLoginFailureModal: function(err){
+      var detail = (err instanceof Parse.Error && _.has(err, "message")) ? err.message : JSON.stringify(err);
       App.channel.request("modals:error", {
         title: "Login failed",
-        message: err || "Automatic login failed. Please try again or contact support."
+        message: "Automatic login failed. Please try again or contact support.",
+        detail: detail
       });
     },
 
@@ -29,10 +31,10 @@ App.module("Login", function(Login, App, Backbone, Marionette, $, _) {
         })
         .fail(function(){
           return $.when()
-            .then(that.showLoginModal)
-            .then(that.autoLoginUser)
-            .then(that.dismissLoginModal)
-            .fail(that.showLoginFailureModal);
+            .then(that.showLoginModal.bind(that))
+            .then(that.autoLoginUser.bind(that))
+            .then(that.dismissLoginModal.bind(that))
+            .fail(that.showLoginFailureModal.bind(that));
         });
     }
 
