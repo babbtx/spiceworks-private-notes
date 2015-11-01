@@ -81,18 +81,19 @@ var loginOrCreate = function (user_auid) {
           return user;
         })
         .fail(function(err){
-          var promise = new Parse.Promise();
           console.warn("Parse.User.logIn failed with " + JSON.stringify(err));
-          Parse.User.signUp(username, password)
-            .done(function(user){
+          return Parse.User.signUp(username, password)
+            .then(function(user){
               console.log("User create and login " + user_auid);
-              promise.resolve(user);
+              var userAcl = new Parse.ACL(user);
+              userAcl.setPublicReadAccess(false);
+              user.setACL(userAcl);
+              return user.save();
             })
             .fail(function(err){
               console.warn("Parse.User.signUp failed with " + JSON.stringify(err));
-              promise.reject(err);
+              return Parse.Promise.error(err);
             });
-          return promise;
         });
     });
 }
