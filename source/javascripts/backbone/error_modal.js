@@ -9,12 +9,14 @@ App.module("Root", function(Root, App, Backbone, Marionette, $, _) {
       var data = {};
       data.title = this.options.title || "Error";
       data.message = this.options.message || "An unknown error occurred. Please try again or contact support.";
+      data.detail = this.options.detail;
       data.dismissible = this.options.dismissible;
       return data;
     },
 
     onShow: function(){
       this.$el.openModal({dismissible: false});
+      this.$el.find(".collapsible").collapsible();
     },
 
     onBeforeDestroy: function(){
