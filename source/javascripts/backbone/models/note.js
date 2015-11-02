@@ -77,6 +77,7 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
           var d = $.Deferred();
           var query = new Parse.Query(Models.Note);
           query.equalTo("user", Parse.User.current());
+          query.equalTo("host_auid", App.spiceworksEnvironment.app_host.auid);
           query.descending("updatedAt");
           query.limit(5);
           query.find()
