@@ -1,5 +1,5 @@
-var authorizer = require("lib/spiceworks_authorizer");
-var spiceworks_user = require("lib/spiceworks_user");
+var authorizer = require("cloud/lib/spiceworks_authorizer");
+var spiceworks_user = require("cloud/lib/spiceworks_user");
 
 Parse.Cloud.define("getLoginToken", function(request, response){
   authorizer.authorize(request.params)
