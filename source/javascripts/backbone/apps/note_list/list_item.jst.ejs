@@ -1,0 +1,13 @@
+<div class="collapsible-header">
+  <div class="row">
+    <div class="col s6">
+      <%- s.capitalize(resource_type) %> <%- resource_id %>
+    </div>
+    <div class="col s6 right-align">
+      Last updated <%- moment(updatedAt).format('ll LTS') %>
+    </div>
+  </div>
+</div>
+<div class="collapsible-body">
+  <%= body %>
+</div>

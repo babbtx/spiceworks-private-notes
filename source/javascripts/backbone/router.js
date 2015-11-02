@@ -8,6 +8,13 @@ App.module("Root", function(Root, App, Backbone, Marionette, $, _){
 
   Root.ContainerController = {
 
+    notesList: function(){
+      // TODO i was short on time. create a controller the shows a loading view and then subs in the list view when the load is complete.
+      App.channel.request("models:note:list").then(function(notes){
+        App.rootLayout.showChildView("container", new App.NoteList.Views.Main({collection: notes}));
+      })
+    },
+
     findNote: function(){
       App.rootLayout.showChildView("container", new App.FindNote.Views.Main());
       // update URL
@@ -33,6 +40,7 @@ App.module("Root", function(Root, App, Backbone, Marionette, $, _){
   Root.Router = Marionette.AppRouter.extend({
     controller: Root.ContainerController,
     appRoutes: {
+      "notes": "notesList",
       "note/find": "findNote",
       "note/:key": "editNoteByKey",
       "*notFound": "notFound"

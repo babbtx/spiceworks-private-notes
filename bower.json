@@ -29,6 +29,7 @@
     "backbone.radio": "~1.0.2",
     "moment": "~2.10.6",
     "normalize-css": "normalize.css#~3.0.3",
-    "github-fork-ribbon-css": "~0.1.1"
+    "github-fork-ribbon-css": "~0.1.1",
+    "underscore.string": "~3.2.2"
   }
 }
