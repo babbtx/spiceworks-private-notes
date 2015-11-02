@@ -1,0 +1,24 @@
+@import "common/brand";
+
+.index {
+  color: $brown;
+  background-color: $whiteish;
+
+  #index-title {
+    height: 450px;
+
+    #index-title-box {
+      margin-top: 40px;
+      padding: 20px;
+      background-color: rgba(247, 247, 255, 0.75);
+
+      h4 {
+        font-weight: 300;
+      }
+    }
+  }
+
+  .github-fork-ribbon {
+    background-color: #f80;
+  }
+}
