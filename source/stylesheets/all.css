@@ -3,6 +3,7 @@
  *= require materialize
  *= require medium-editor
  *= require themes/flat
+ *= require github-fork-ribbon-css
  *= require_tree ./common
  *= require_tree ./app
  */
