@@ -14,29 +14,46 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
       _.each(properties || {}, function(value,property){
         note.set(property, value);
       });
-      return note;
+      return App.channel.request("login")
+        .then(function(){
+          var currentUser = Parse.User.current();
+          note.set("user", currentUser);
+          var acl = new Parse.ACL(currentUser);
+          acl.setPublicReadAccess(false);
+          note.setACL(acl);
+          return note;
+        })
     },
 
     findOrInitialize: function(properties){
       var query = new Parse.Query(Models.Note);
       _.each(properties || {}, function(value,property){
         query.equalTo(property, value);
-      })
-      var d = $.Deferred();
-      query.first({
-        success: function(note){
-          if (!note){
-            d.resolve(Models.Note.API.initialize(properties));
-          }
-          else {
-            d.resolve(note);
-          }
-        },
-        error: function(error){
-          d.reject(error);
-        }
       });
-      return d.promise();
+      return App.channel.request("login")
+        .then(function(){
+          var d = $.Deferred();
+          query.equalTo("user", Parse.User.current());
+          query.first()
+            .done(function(note){ // query's Parse.Promise
+              if (note){
+                d.resolve(note);
+              }
+              else {
+                Models.Note.API.initialize(properties)
+                  .done(function(note){ // initialize's $.Deferred
+                    d.resolve(note);
+                  })
+                  .fail(function(err){ // initialize's $.Deferred
+                    d.reject(err);
+                  });
+              }
+            })
+            .fail(function(err){ // query's Parse.Promise
+              d.reject(err);
+            });
+          return d.promise();
+        })
     }
   };
 
