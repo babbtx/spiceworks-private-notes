@@ -24,17 +24,26 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
     },
 
     getParseToken: function(spiceworksToken){
+      var that = this;
       var parseToken = $.Deferred();
-      Parse.Cloud.run('getLoginToken', this.parseTokenParams({spiceworks_token: spiceworksToken}), {
-        success: function(token) {
-          parseToken.resolve(token);
-        },
-        error: function(err){
-          console.warn("PARSE LOGIN FAILED");
-          console.warn(err);
-          parseToken.reject(err);
-        }
-      });
+      // ironically the cloud getLoginToken call will fail if the session is invalid
+      // logOut seems to properly destroy the client-side session
+      Parse.User.logOut()
+        .always(function(){
+          // and then for some reason this call doesn't work in the promise of logOut
+          _.defer(function(){
+            Parse.Cloud.run('getLoginToken', that.parseTokenParams({spiceworks_token: spiceworksToken}), {
+              success: function(token) {
+                parseToken.resolve(token);
+              },
+              error: function(err){
+                console.warn("PARSE LOGIN FAILED");
+                console.warn(err);
+                parseToken.reject(err);
+              }
+            });
+          });
+        });
       return parseToken.promise();
     },
 
