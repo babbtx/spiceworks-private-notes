@@ -1,0 +1,31 @@
+.note_list-main {
+
+  $collapsed-margin: 20px;
+
+  .section {
+    padding-bottom: 0;
+  }
+
+  .collapsible.popout > li:not(.active) {
+    margin: 0 $collapsed-margin;
+  }
+  .body-title {
+    margin-left: $collapsed-margin;
+  }
+
+  .collapsible-header .row {
+    .col:first-child {
+      font-weight: bold;
+    }
+    .col.right-align {
+      font-style: italic;
+      color: #757575;
+      padding-right: 1.2rem;
+    }
+  }
+
+  .collapsible-body:not(.demo) {
+    max-height: 250px;
+    overflow: hidden;
+  }
+}
