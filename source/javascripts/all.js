@@ -1,4 +1,5 @@
 //= require jquery
+//= require js-cookie
 //= require moment
 //= require underscore
 //= require underscore.string
