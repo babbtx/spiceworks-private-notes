@@ -23,6 +23,8 @@
 /.ruby-version
 /.ruby-gemset
 /.env
+/.parse.local
+/.parse.project
 
 # output
 /public
