@@ -17,33 +17,32 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
       return spiceworksToken.promise();
     },
 
-    parseTokenParams: function(params){
+    buildParseTokenParams: function(spiceworksToken) {
       var env = _.pick(App.spiceworksEnvironment.user, 'first_name', 'last_name', 'user_auid');
-      env.host_auid = App.spiceworksEnvironment.app_host.auid;
-      return _.extend(env, params);
+      return _.extend(env, {host_auid: App.spiceworksEnvironment.app_host.auid, spiceworks_token: spiceworksToken});
     },
 
-    getParseToken: function(spiceworksToken){
+    getParseToken: function(parseTokenParams){
       var that = this;
       var parseToken = $.Deferred();
-      // ironically the cloud getLoginToken call will fail if the session is invalid
-      // logOut seems to properly destroy the client-side session
-      Parse.User.logOut()
-        .always(function(){
-          // and then for some reason this call doesn't work in the promise of logOut
-          _.defer(function(){
-            Parse.Cloud.run('getLoginToken', that.parseTokenParams({spiceworks_token: spiceworksToken}), {
-              success: function(token) {
-                parseToken.resolve(token);
-              },
-              error: function(err){
-                console.warn("PARSE LOGIN FAILED");
-                console.warn(err);
-                parseToken.reject(err);
-              }
+        // ironically the cloud getLoginToken call will fail if the session is invalid
+        // logOut seems to properly destroy the client-side session
+        Parse.User.logOut()
+          .always(function(){
+            // and then for some reason this call doesn't work in the promise of logOut
+            _.defer(function(){
+              Parse.Cloud.run('getLoginToken', parseTokenParams, {
+                success: function(token) {
+                  parseToken.resolve(token);
+                },
+                error: function(err){
+                  console.warn("PARSE LOGIN FAILED");
+                  console.warn(err);
+                  parseToken.reject(err);
+                }
+              });
             });
           });
-        });
       return parseToken.promise();
     },
 
@@ -59,6 +58,7 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
       /* class methods */
       login: function () {
         return private.getSpiceworksToken()
+          .then(private.buildParseTokenParams.bind(private))
           .then(private.getParseToken.bind(private))
           .then(private.login.bind(private));
       }
