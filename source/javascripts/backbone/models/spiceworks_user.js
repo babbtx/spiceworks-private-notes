@@ -25,6 +25,18 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
     getParseToken: function(parseTokenParams){
       var that = this;
       var parseToken = $.Deferred();
+      var invalidParamsMessage;
+
+      _.each(parseTokenParams, function(val,key){
+        if (_.isUndefined(val) || val === null) {
+          invalidParamsMessage = "Invalid environment value for '" +  key + "'";
+        }
+      });
+
+      if (invalidParamsMessage) {
+        parseToken.reject(invalidParamsMessage);
+      }
+      else {
         // ironically the cloud getLoginToken call will fail if the session is invalid
         // logOut seems to properly destroy the client-side session
         Parse.User.logOut()
@@ -43,6 +55,8 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
               });
             });
           });
+      }
+
       return parseToken.promise();
     },
 
