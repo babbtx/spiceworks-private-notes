@@ -1,6 +1,10 @@
 #error-modal {
   width: 400px;
 
+  .modal-error-message {
+    font-size: 1.2em;
+  }
+
   .collapsible {
     border-top: none;
     border-right: none;
