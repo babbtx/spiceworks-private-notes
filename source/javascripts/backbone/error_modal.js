@@ -15,6 +15,7 @@ App.module("Root", function(Root, App, Backbone, Marionette, $, _) {
     },
 
     onShow: function(){
+      Rollbar.info("Error modal: " + (this.options.message || "(generic)"));
       this.$el.openModal({dismissible: false});
       this.$el.find(".collapsible").collapsible();
     },

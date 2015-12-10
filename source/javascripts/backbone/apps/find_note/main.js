@@ -38,6 +38,7 @@ App.module("FindNote.Views", function(Views, App, Backbone, Marionette, $, _){
           App.channel.trigger("router:navigate", "editNote", {model: note});
         })
         .fail(function(error){
+          Rollbar.error(error);
           App.channel.trigger("router:navigate", "error", {error: error});
         })
     }

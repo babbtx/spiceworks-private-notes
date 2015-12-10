@@ -11,6 +11,7 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
         function(err){
           console.warn("SPICEWORKS LOGIN FAILED");
           console.warn(err);
+          Rollbar.warning("Spiceworks login failure: " + JSON.stringify(err));
           spiceworksToken.reject(err);
         }
       );
@@ -39,6 +40,7 @@ App.module("Models", function(Models, App, Backbone, Marionette, $, _){
               error: function(err){
                 console.warn("PARSE LOGIN FAILED");
                 console.warn(err);
+                Rollbar.warning("Parse login failure: " + JSON.stringify(err));
                 parseToken.reject(err);
               }
             });

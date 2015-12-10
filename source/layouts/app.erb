@@ -57,7 +57,7 @@
               App.start();
             },
             function(err){
-              console.warn(err);
+              Rollbar.critical(err);
               window.location.href = "/404.html";
             });
       });
