@@ -15,10 +15,16 @@ App.module("Login", function(Login, App, Backbone, Marionette, $, _) {
     },
 
     showLoginFailureModal: function(err){
-      var detail = (err instanceof Parse.Error && _.has(err, "message")) ? err.message : JSON.stringify(err);
+      var detail =
+        (err instanceof Parse.Error && _.has(err, "message")) ? err.message :
+        (typeof(err) === "string") ? err :
+        JSON.stringify(err);
+      var message = detail.match(/user_auid/) ?
+        "Automatic login failed. Please completely logout of Spiceworks then login and try again. If the problem continues, contact support at support@spiceworks.com." :
+        "Automatic login failed. Please try again or contact support at support@spiceworks.com.";
       App.channel.request("modals:error", {
         title: "Login failed",
-        message: "Automatic login failed. Please try again or contact support.",
+        message: message,
         detail: detail
       });
     },

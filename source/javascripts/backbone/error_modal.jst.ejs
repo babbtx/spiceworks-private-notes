@@ -1,12 +1,12 @@
 <div class="modal-content">
   <h4 class="center-align red-text text-darken-4"><%- title %></h4>
   <div class="divider"></div>
-  <div class="section flow-text center-align gray-text text-darken-4"><%- message %></div>
+  <div class="modal-error-message section center-align gray-text text-darken-4"><%- message %></div>
   <% if (detail) { %>
   <ul class="collapsible" data-collapsible="accordion">
     <li>
       <div class="collapsible-header"><a href="javascript:;">Show details.</a></div>
-      <div class="collapsible-body"><p><%- detail %></p></div>
+      <div class="modal-error-detail collapsible-body"><p><%- detail %></p></div>
     </li>
   </ul>
   <% } %>
