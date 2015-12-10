@@ -34,6 +34,14 @@
         var initialized = $.Deferred();
         App.spiceworksCard = new SW.Card();
         App.spiceworksCard.onActivate(function(env){
+          Rollbar.configure({
+            payload: {
+              person: {
+                username: "" + env.user.first_name + " " + env.user.last_name,
+                id: env.user.user_auid,
+              }
+            }
+          });
           App.spiceworksEnvironment = env;
           initialized.resolve();
         });
