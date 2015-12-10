@@ -19,14 +19,23 @@ App.module("FindNote.Views", function(Views, App, Backbone, Marionette, $, _){
         attrs.resource_id = id;
         deferred.resolve();
       });
+      // Pre-7.5
       App.spiceworksCard.services("inventory").on("device:show", function(id){
         attrs.resource_type = "device";
         attrs.resource_id = id;
         deferred.resolve();
       });
-      _.delay(function(){
-        deferred.reject("Spiceworks failed to initialize app. Please contact Spiceworks support at support@spiceworks.com");
-      }, 15000);
+      // Fixed in 7.5
+      if (!_.isUndefined(App.spiceworksEnvironment.placement)) {
+        attrs.resource_type = App.spiceworksEnvironment.placement;
+        attrs.resource_id = App.spiceworksEnvironment.placement.data.id;
+        deferred.resolve();
+      }
+      else {
+        _.delay(function(){
+          deferred.reject("Spiceworks failed to initialize app. Please contact Spiceworks support at support@spiceworks.com");
+        }, 15000);
+      }
       deferred
         .then(function(){
           return App.channel.request("models:note", {key: that.buildKey(attrs)})
