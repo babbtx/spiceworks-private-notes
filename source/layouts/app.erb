@@ -39,6 +39,9 @@
               person: {
                 username: "" + env.user.first_name + " " + env.user.last_name,
                 id: env.user.user_auid,
+              },
+              custom: {
+                version: env.app_host.version,
               }
             }
           });
