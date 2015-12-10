@@ -27,7 +27,7 @@ App.module("FindNote.Views", function(Views, App, Backbone, Marionette, $, _){
       });
       // Fixed in 7.5
       if (!_.isUndefined(App.spiceworksEnvironment.placement)) {
-        attrs.resource_type = App.spiceworksEnvironment.placement;
+        attrs.resource_type = App.spiceworksEnvironment.placement.location;
         attrs.resource_id = App.spiceworksEnvironment.placement.data.id;
         deferred.resolve();
       }
