@@ -25,7 +25,7 @@ App.module("FindNote.Views", function(Views, App, Backbone, Marionette, $, _){
         deferred.resolve();
       });
       _.delay(function(){
-        deferred.reject("Failed to initialize Spiceworks placement in 15 seconds");
+        deferred.reject("Spiceworks failed to initialize app. Please contact Spiceworks support at support@spiceworks.com");
       }, 15000);
       deferred
         .then(function(){
@@ -38,7 +38,10 @@ App.module("FindNote.Views", function(Views, App, Backbone, Marionette, $, _){
           App.channel.trigger("router:navigate", "editNote", {model: note});
         })
         .fail(function(error){
-          App.channel.trigger("router:navigate", "error", {error: error});
+          if (typeof error !== "string") {
+            error = JSON.stringify(error);
+          }
+          App.channel.request("modals:error", {message: error});
         })
     }
   });
