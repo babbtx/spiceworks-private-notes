@@ -5,7 +5,7 @@
 //= require underscore.string
 //= require materialize
 //= require backbone
-//= require parse
+//= require parse/parse
 //= require backbone.radio
 //= require backbone.babysitter
 //= require backbone.marionette
